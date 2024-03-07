@@ -92,6 +92,7 @@ DWORD WINAPI Payload(LPVOID lpParam)
         , {"No Stationary Turret Overheat", false}
         , {"No Backpack Shield Cooldown", false}
         , {"No JetPack Cooldown", false}
+        , {"Unlock Armor/Weapons/Stratagems", false}
     
     }; // Initialize all checkboxes to unchecked
     const int numCheckboxes = checkboxes.size();
@@ -551,6 +552,27 @@ DWORD WINAPI Payload(LPVOID lpParam)
                     Memory::Patch((LPVOID)(aob_CheckMissionBlip), ShowAllMapIconsByte2n4, 2);
                     gData.ShowAllMapIcons = !gData.ShowAllMapIcons;
                     printf("[Active] Show All Map Icons\n");
+                }
+            }
+
+            if (checkboxes[i].title == "Unlock Armor/Weapons/Stratagems")
+            {
+                if (!gData.UnlockStuff)
+                {
+                    const char* gameDll = "game.dll";
+                    uintptr_t baseAddress = reinterpret_cast<uintptr_t>(GetModuleHandleA(gameDll));
+                    uintptr_t StrategemExtra = baseAddress + 0xB7B690;
+                    BYTE StuffPatch[] = { 0xB0, 0x01, 0xC3 };
+                    Memory::Patch(reinterpret_cast<LPVOID>(StrategemExtra), StuffPatch, 3);
+
+                    uintptr_t Armory = baseAddress + 0xBB4AC0;
+                    Memory::Patch(reinterpret_cast<LPVOID>(Armory), StuffPatch, 3);
+
+                    uintptr_t AllArmors = baseAddress + 0xA91290;
+                    Memory::Patch(reinterpret_cast<LPVOID>(AllArmors), StuffPatch, 3);
+
+                    gData.UnlockStuff = !gData.UnlockStuff;
+                    printf("[Active] Unlock Armor/Weapons/Stratagems\n");
                 }
             }
 
