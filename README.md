@@ -26,6 +26,7 @@ std::vector<Checkbox> checkboxes = {
     , {"No Stationary Turret Overheat", false}
     , {"No Backpack Shield Cooldown", false}
     , {"No JetPack Cooldown", false}
+    , {"Unlock All Weapons/Armor/Strategems", false}
 
 };
 ```
