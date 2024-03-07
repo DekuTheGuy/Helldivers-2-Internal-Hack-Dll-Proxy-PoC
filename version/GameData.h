@@ -25,4 +25,5 @@ class GameData
 		bool	InstantRailGun = false;
 		bool	OHK = false;
 		bool	ShowAllMapIcons = false;
+		bool	UnlockStuff = false;
 };
